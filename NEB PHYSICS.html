@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEB Physics MCQ — 100 Questions</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e1a;
+  --surface: #111827;
+  --surface2: #1a2235;
+  --border: #1e2d45;
+  --accent: #3b82f6;
+  --accent2: #06b6d4;
+  --green: #10b981;
+  --red: #ef4444;
+  --amber: #f59e0b;
+  --text: #f0f4ff;
+  --text2: #8899b4;
+  --text3: #4a6080;
+  --tag-mod: #7c3aed;
+  --tag-elec: #0891b2;
+  --tag-opt: #047857;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 0;
+}
+
+/* HEADER */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header-left h1 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.header-left p {
+  font-size: 12px;
+  color: var(--text2);
+  margin-top: 2px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.progress-bar-wrap {
+  flex: 1;
+  max-width: 320px;
+  margin: 0 32px;
+}
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text2);
+  margin-bottom: 6px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.progress-bar {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+.score-display {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--text2);
+  text-align: right;
+}
+.score-display span {
+  color: var(--accent2);
+  font-weight: 600;
+}
+
+/* FILTER TABS */
+.filter-wrap {
+  padding: 20px 32px 0;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.filter-btn {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text2);
+  font-size: 12px;
+  font-family: 'Space Grotesk', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-weight: 500;
+}
+.filter-btn:hover { border-color: var(--accent); color: var(--text); }
+.filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.filter-btn.mod.active { background: var(--tag-mod); border-color: var(--tag-mod); }
+.filter-btn.elec.active { background: var(--tag-elec); border-color: var(--tag-elec); }
+.filter-btn.opt.active { background: var(--tag-opt); border-color: var(--tag-opt); }
+
+/* MAIN */
+.main {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 28px 24px 80px;
+}
+
+/* QUESTION CARD */
+.q-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.q-card.answered-correct { border-color: var(--green); }
+.q-card.answered-wrong { border-color: var(--red); }
+
+.q-top {
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.q-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text3);
+  min-width: 32px;
+  padding-top: 2px;
+}
+.q-text {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text);
+  flex: 1;
+}
+.q-tag {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  margin-top: 1px;
+}
+.tag-mod { background: rgba(124,58,237,0.2); color: #a78bfa; }
+.tag-elec { background: rgba(8,145,178,0.2); color: #67e8f9; }
+.tag-opt { background: rgba(4,120,87,0.2); color: #6ee7b7; }
+
+.q-options {
+  padding: 14px 20px 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+@media (max-width: 500px) { .q-options { grid-template-columns: 1fr; } }
+
+.option-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  color: var(--text2);
+}
+.option-btn:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--text);
+  background: rgba(59,130,246,0.08);
+}
+.option-btn.selected {
+  border-color: var(--accent);
+  background: rgba(59,130,246,0.12);
+  color: var(--text);
+}
+.option-btn.correct {
+  border-color: var(--green);
+  background: rgba(16,185,129,0.12);
+  color: #6ee7b7;
+}
+.option-btn.wrong {
+  border-color: var(--red);
+  background: rgba(239,68,68,0.1);
+  color: #fca5a5;
+}
+.option-btn:disabled { cursor: default; }
+
+.opt-letter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background: var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.option-btn.correct .opt-letter { background: var(--green); color: #fff; }
+.option-btn.wrong .opt-letter { background: var(--red); color: #fff; }
+.option-btn.selected .opt-letter { background: var(--accent); color: #fff; }
+
+.q-explanation {
+  display: none;
+  padding: 12px 20px 14px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.6;
+  background: rgba(0,0,0,0.2);
+}
+.q-explanation.show { display: block; }
+.q-explanation strong { color: var(--accent2); }
+
+/* SUBMIT SECTION */
+.submit-wrap {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  z-index: 100;
+}
+.submit-info {
+  font-size: 13px;
+  color: var(--text2);
+  font-family: 'JetBrains Mono', monospace;
+}
+.submit-info span { color: var(--amber); font-weight: 600; }
+.btn-submit {
+  padding: 11px 28px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-submit:hover { background: #2563eb; transform: translateY(-1px); }
+.btn-submit:disabled { background: var(--border); color: var(--text3); cursor: not-allowed; transform: none; }
+
+.btn-reset {
+  padding: 11px 20px;
+  background: transparent;
+  color: var(--text2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-reset:hover { border-color: var(--red); color: var(--red); }
+
+/* RESULT MODAL */
+.result-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+}
+.result-overlay.show { display: flex; }
+.result-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 40px;
+  max-width: 440px;
+  width: 90%;
+  text-align: center;
+}
+.result-emoji { font-size: 52px; margin-bottom: 16px; }
+.result-title { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
+.result-score {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 48px;
+  font-weight: 700;
+  margin: 16px 0;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.result-sub { font-size: 14px; color: var(--text2); margin-bottom: 24px; line-height: 1.6; }
+.result-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.stat-box {
+  background: var(--surface2);
+  border-radius: 10px;
+  padding: 12px 8px;
+  border: 1px solid var(--border);
+}
+.stat-num { font-size: 22px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+.stat-label { font-size: 11px; color: var(--text2); margin-top: 3px; }
+.btn-review {
+  display: block;
+  width: 100%;
+  padding: 13px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: background 0.15s;
+}
+.btn-review:hover { background: #2563eb; }
+.btn-retry {
+  display: block;
+  width: 100%;
+  padding: 11px;
+  background: transparent;
+  color: var(--text2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-retry:hover { border-color: var(--accent2); color: var(--accent2); }
+
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>NEB Physics MCQ</h1>
+    <p>Modern Physics · Electricity · Optics</p>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-label">
+      <span id="prog-text">0 / 100 answered</span>
+      <span id="prog-pct">0%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+  <div class="score-display">
+    Score <span id="live-score">—</span>
+  </div>
+</div>
+
+<div class="filter-wrap">
+  <button class="filter-btn active" onclick="filterQ('all',this)">All 100</button>
+  <button class="filter-btn mod" onclick="filterQ('mod',this)">Modern Physics</button>
+  <button class="filter-btn elec" onclick="filterQ('elec',this)">Electricity &amp; Electrostatics</button>
+  <button class="filter-btn opt" onclick="filterQ('opt',this)">Optics</button>
+</div>
+
+<div class="main" id="qlist"></div>
+
+<div class="submit-wrap">
+  <div class="submit-info">Unanswered: <span id="unanswered-count">100</span></div>
+  <div style="display:flex;gap:10px">
+    <button class="btn-reset" onclick="resetQuiz()">Reset</button>
+    <button class="btn-submit" id="submit-btn" onclick="submitQuiz()">Submit &amp; Check Answers</button>
+  </div>
+</div>
+
+<div class="result-overlay" id="result-overlay">
+  <div class="result-box">
+    <div class="result-emoji" id="r-emoji">🎉</div>
+    <div class="result-title" id="r-title">Great Work!</div>
+    <div class="result-score" id="r-score">0/100</div>
+    <div class="result-sub" id="r-sub"></div>
+    <div class="result-stats">
+      <div class="stat-box"><div class="stat-num" id="r-correct" style="color:var(--green)">0</div><div class="stat-label">Correct</div></div>
+      <div class="stat-box"><div class="stat-num" id="r-wrong" style="color:var(--red)">0</div><div class="stat-label">Wrong</div></div>
+      <div class="stat-box"><div class="stat-num" id="r-skip" style="color:var(--amber)">0</div><div class="stat-label">Skipped</div></div>
+    </div>
+    <button class="btn-review" onclick="closeResult()">Review Answers</button>
+    <button class="btn-retry" onclick="resetQuiz()">Try Again</button>
+  </div>
+</div>
+
+<script>
+const questions = [
+  // === MODERN PHYSICS (1-35) ===
+  {id:1,cat:"mod",q:"The work function of a metal is 2.0 eV. What is the threshold frequency of light needed to eject photoelectrons?",opts:["2.4 × 10¹⁴ Hz","4.8 × 10¹⁴ Hz","6.2 × 10¹⁴ Hz","3.1 × 10¹⁴ Hz"],ans:1,exp:"Using φ = hf₀, f₀ = φ/h = (2.0 × 1.6×10⁻¹⁹) / (6.63×10⁻³⁴) ≈ 4.83 × 10¹⁴ Hz."},
+  {id:2,cat:"mod",q:"According to Einstein's photoelectric equation, stopping potential V₀ is related to frequency f by:",opts:["eV₀ = hf + φ","eV₀ = hf − φ","eV₀ = φ − hf","eV₀ = hf/φ"],ans:1,exp:"Einstein's photoelectric equation: KE_max = eV₀ = hf − φ, where φ is the work function."},
+  {id:3,cat:"mod",q:"In Bohr's model, the radius of the nth orbit of hydrogen is proportional to:",opts:["n","n²","1/n","1/n²"],ans:1,exp:"Bohr radius rₙ = n²a₀ where a₀ = 0.529 Å. So radius ∝ n²."},
+  {id:4,cat:"mod",q:"The energy of electron in nth orbit of hydrogen atom is:",opts:["−13.6/n eV","−13.6n² eV","−13.6/n² eV","+13.6/n² eV"],ans:2,exp:"Eₙ = −13.6/n² eV. The negative sign indicates the electron is bound to the nucleus."},
+  {id:5,cat:"mod",q:"What is the de Broglie wavelength of a particle of mass m moving with velocity v?",opts:["λ = mv/h","λ = h/mv","λ = hv/m","λ = m/hv"],ans:1,exp:"de Broglie wavelength: λ = h/p = h/(mv). This is the wave-particle duality formula."},
+  {id:6,cat:"mod",q:"In alpha decay, the mass number of the parent nucleus changes by:",opts:["−2","−4","−1","+2"],ans:1,exp:"Alpha particle (⁴₂He) has mass number 4. So mass number decreases by 4 in alpha decay."},
+  {id:7,cat:"mod",q:"Beta-minus decay emits:",opts:["Proton","Electron and antineutrino","Positron and neutrino","Neutron"],ans:1,exp:"In β⁻ decay: n → p + e⁻ + ν̄ₑ. A neutron converts to a proton, emitting an electron and an antineutrino."},
+  {id:8,cat:"mod",q:"Which radiation has the highest penetrating power?",opts:["Alpha","Beta","Gamma","All equal"],ans:2,exp:"Gamma rays are electromagnetic radiation and have the highest penetrating power. Alpha is stopped by paper, beta by thin metal, gamma needs thick lead/concrete."},
+  {id:9,cat:"mod",q:"The photoelectric effect proves the ______ nature of light.",opts:["Wave","Particle","Both wave and particle","Neither"],ans:1,exp:"The photoelectric effect cannot be explained by wave theory. It shows light consists of photons (particles) each with energy E = hf."},
+  {id:10,cat:"mod",q:"The energy of a photon of wavelength λ is:",opts:["E = hλ/c","E = hc/λ","E = cλ/h","E = h/(cλ)"],ans:1,exp:"E = hf = hc/λ, where h = 6.63×10⁻³⁴ J·s, c = 3×10⁸ m/s."},
+  {id:11,cat:"mod",q:"Half-life of a radioactive substance is 10 days. After 30 days, what fraction of sample remains?",opts:["1/2","1/4","1/8","1/16"],ans:2,exp:"Number of half-lives = 30/10 = 3. Remaining fraction = (1/2)³ = 1/8."},
+  {id:12,cat:"mod",q:"In hydrogen spectrum, the Balmer series corresponds to transitions ending at:",opts:["n = 1","n = 2","n = 3","n = 4"],ans:1,exp:"Balmer series: transitions from higher levels to n=2. These give visible light (400–700 nm). Lyman ends at n=1."},
+  {id:13,cat:"mod",q:"The atomic number Z of a nucleus after emitting one alpha and two beta particles is:",opts:["Z − 2","Z","Z − 4","Z + 2"],ans:1,exp:"Alpha decay: Z decreases by 2. Each beta-minus decay: Z increases by 1. Net change: Z − 2 + 2 = Z (unchanged)."},
+  {id:14,cat:"mod",q:"Which of the following is the correct relation for the photoelectric effect threshold?",opts:["hf₀ = φ","hf₀ = KE","hf₀ = eV","hf₀ = mc²"],ans:0,exp:"At threshold frequency f₀, the photon energy exactly equals the work function φ: hf₀ = φ. No kinetic energy is imparted to the electron."},
+  {id:15,cat:"mod",q:"The de Broglie wavelength of an electron accelerated through potential V is proportional to:",opts:["V","√V","1/√V","1/V"],ans:2,exp:"KE = eV = p²/2m, so p = √(2meV), and λ = h/p = h/√(2meV) ∝ 1/√V."},
+  {id:16,cat:"mod",q:"Nuclear fission is initiated by:",opts:["Alpha particles","Fast neutrons","Slow (thermal) neutrons","Gamma rays"],ans:2,exp:"Thermal (slow) neutrons are more easily captured by uranium-235 nuclei, initiating fission. Fast neutrons are less likely to be captured."},
+  {id:17,cat:"mod",q:"The velocity of an electron in the first Bohr orbit of hydrogen is approximately:",opts:["3 × 10⁸ m/s","2.2 × 10⁶ m/s","6 × 10⁶ m/s","1.5 × 10⁵ m/s"],ans:1,exp:"v₁ = e²/(4πε₀ħ) ≈ 2.2 × 10⁶ m/s, which is about 1/137 of the speed of light."},
+  {id:18,cat:"mod",q:"Mass number is conserved in:",opts:["Only alpha decay","Only beta decay","Both alpha and beta decay","Neither"],ans:2,exp:"Mass number is conserved in ALL nuclear reactions including both alpha and beta decay. Beta decay changes Z, not A."},
+  {id:19,cat:"mod",q:"Photons have zero:",opts:["Energy","Momentum","Rest mass","Frequency"],ans:2,exp:"Photons travel at the speed of light and have zero rest mass. They have energy E=hf and momentum p=h/λ but no rest mass."},
+  {id:20,cat:"mod",q:"The stopping potential in a photoelectric experiment depends on:",opts:["Intensity of light only","Frequency of light only","Both frequency and intensity","Neither"],ans:1,exp:"Stopping potential (= max KE of electrons) depends only on frequency, not intensity. Higher intensity means more electrons but same max KE."},
+  {id:21,cat:"mod",q:"In Bohr's model, angular momentum of electron is quantized as:",opts:["L = nh","L = nh/2π","L = n²h","L = nh/4π"],ans:1,exp:"Bohr's postulate: L = mvr = nħ = nh/2π, where n = 1, 2, 3..."},
+  {id:22,cat:"mod",q:"The wavelength of the first line of Lyman series in hydrogen spectrum is:",opts:["91.2 nm","121.6 nm","656.3 nm","486.1 nm"],ans:1,exp:"Lyman series first line: n=2 to n=1 transition. λ ≈ 121.6 nm (ultraviolet). 656.3 nm is the Balmer series Hα line."},
+  {id:23,cat:"mod",q:"Radioactive decay follows which type of law?",opts:["Linear","Quadratic","Exponential","Logarithmic"],ans:2,exp:"N = N₀e^(−λt). Radioactive decay is an exponential process — rate of decay is proportional to the number of nuclei present."},
+  {id:24,cat:"mod",q:"The energy released per fission of U-235 is approximately:",opts:["1 MeV","20 MeV","200 MeV","2000 MeV"],ans:2,exp:"Each fission of U-235 releases approximately 200 MeV of energy. This is about 80 million times more than a chemical reaction."},
+  {id:25,cat:"mod",q:"The ionizing power of alpha particles compared to gamma rays is:",opts:["Equal","Much less","Much greater","Slightly less"],ans:2,exp:"Alpha particles are massive and doubly charged, so they cause intense ionization. They have ~100× more ionizing power than gamma rays but much less penetration."},
+  {id:26,cat:"mod",q:"What is the maximum kinetic energy of photoelectrons if light of frequency f hits a metal with work function φ?",opts:["KE = hf","KE = φ","KE = hf + φ","KE = hf − φ"],ans:3,exp:"Einstein: KE_max = hf − φ. The photon energy hf is used first to overcome the work function φ; the remainder becomes kinetic energy."},
+  {id:27,cat:"mod",q:"Which series of hydrogen spectrum falls in ultraviolet region?",opts:["Balmer","Lyman","Paschen","Brackett"],ans:1,exp:"Lyman series (transitions to n=1) falls in ultraviolet. Balmer is visible. Paschen and Brackett are infrared."},
+  {id:28,cat:"mod",q:"In a nuclear reaction, binding energy per nucleon is highest for:",opts:["Uranium","Hydrogen","Iron (Fe-56)","Carbon"],ans:2,exp:"Iron-56 has the highest binding energy per nucleon (~8.8 MeV). This is why both fission (heavy nuclei) and fusion (light nuclei) release energy — both approach iron."},
+  {id:29,cat:"mod",q:"Gamma radiation is:",opts:["Stream of electrons","Stream of helium nuclei","High energy electromagnetic wave","Stream of neutrons"],ans:2,exp:"Gamma rays are high-energy electromagnetic radiation emitted from the nucleus, with wavelengths < 0.01 nm. No mass or charge change in γ emission."},
+  {id:30,cat:"mod",q:"An electron jumps from n=4 to n=2 in hydrogen. The photon emitted belongs to:",opts:["Lyman series","Balmer series","Paschen series","Brackett series"],ans:1,exp:"Balmer series = transitions to n=2. The n=4→n=2 transition emits blue-green light at 486.1 nm (Hβ line)."},
+  {id:31,cat:"mod",q:"The rest mass energy of an electron (m = 9.1×10⁻³¹ kg) is approximately:",opts:["0.51 MeV","1.02 MeV","0.91 MeV","0.13 MeV"],ans:0,exp:"E = mc² = 9.1×10⁻³¹ × (3×10⁸)² = 8.19×10⁻¹⁴ J = 0.51 MeV."},
+  {id:32,cat:"mod",q:"The activity of a radioactive sample is defined as:",opts:["Number of nuclei present","Number of decays per second","Energy released per decay","Half-life of the substance"],ans:1,exp:"Activity A = −dN/dt = λN, measured in Becquerels (Bq) = 1 decay per second, or Curie (Ci) = 3.7×10¹⁰ Bq."},
+  {id:33,cat:"mod",q:"Pair production is the creation of:",opts:["Two photons from one photon","An electron and positron from a photon","A proton and neutron from a neutron","Alpha particle from gamma ray"],ans:1,exp:"In pair production, a photon (γ) near a nucleus creates an electron-positron pair: γ → e⁻ + e⁺. Minimum energy needed = 2 × 0.51 = 1.02 MeV."},
+  {id:34,cat:"mod",q:"Which of the following has the highest frequency?",opts:["Radio waves","Visible light","X-rays","Gamma rays"],ans:3,exp:"Electromagnetic spectrum in increasing frequency: Radio < Microwave < IR < Visible < UV < X-ray < Gamma rays."},
+  {id:35,cat:"mod",q:"The radius of the first Bohr orbit (Bohr radius) is:",opts:["0.529 nm","0.529 Å","5.29 Å","5.29 nm"],ans:1,exp:"a₀ = 0.529 Å = 0.0529 nm = 5.29 × 10⁻¹¹ m. This is the most probable distance of the electron in hydrogen ground state."},
+
+  // === ELECTRICITY & ELECTROSTATICS (36-70) ===
+  {id:36,cat:"elec",q:"Two charges of +4 μC and +9 μC are placed 30 cm apart. The force between them is: (k = 9×10⁹ N·m²/C²)",opts:["4.5 N","3.6 N","1.8 N","0.36 N"],ans:1,exp:"F = kq₁q₂/r² = 9×10⁹ × 4×10⁻⁶ × 9×10⁻⁶ / (0.3)² = 324×10⁻³/0.09 = 3.6 N."},
+  {id:37,cat:"elec",q:"The electric field at a distance r from a point charge Q is:",opts:["E = kQ/r","E = kQ/r²","E = kQ²/r","E = kQr"],ans:1,exp:"Electric field: E = kQ/r² = Q/(4πε₀r²), pointing away from positive charge. Units: N/C or V/m."},
+  {id:38,cat:"elec",q:"A battery of EMF 12V has internal resistance 1Ω. When connected to an external resistance of 5Ω, the terminal voltage is:",opts:["12 V","10 V","8 V","2 V"],ans:1,exp:"Current I = E/(R+r) = 12/6 = 2A. Terminal voltage V = E − Ir = 12 − 2×1 = 10 V."},
+  {id:39,cat:"elec",q:"Kirchhoff's current law (KCL) states:",opts:["Sum of voltages in a loop is zero","Sum of currents at a node is zero","Current is same throughout a series circuit","Voltage is same across parallel branches"],ans:1,exp:"KCL (junction rule): The algebraic sum of currents entering a node equals the sum leaving. Based on conservation of charge."},
+  {id:40,cat:"elec",q:"Three capacitors of 2μF each are connected in series. The equivalent capacitance is:",opts:["6 μF","2 μF","2/3 μF","1/6 μF"],ans:2,exp:"Series: 1/Ceq = 1/2 + 1/2 + 1/2 = 3/2, so Ceq = 2/3 μF."},
+  {id:41,cat:"elec",q:"The work done in moving a charge Q through potential difference V is:",opts:["W = Q/V","W = V/Q","W = QV","W = Q²V"],ans:2,exp:"Work done W = QV. This is the electrical potential energy gained by charge Q when moved through potential difference V."},
+  {id:42,cat:"elec",q:"The SI unit of electric potential is:",opts:["Newton","Coulomb","Volt","Farad"],ans:2,exp:"Electric potential is measured in Volts (V). 1 V = 1 J/C — the potential when 1 joule of work is done per coulomb of charge."},
+  {id:43,cat:"elec",q:"The equivalent resistance of two 6Ω resistors in parallel is:",opts:["12 Ω","6 Ω","3 Ω","1 Ω"],ans:2,exp:"Parallel: 1/R = 1/6 + 1/6 = 2/6, R = 3 Ω. For identical resistors in parallel, divide by the number: 6/2 = 3 Ω."},
+  {id:44,cat:"elec",q:"Ohm's law states that at constant temperature:",opts:["V ∝ I²","V ∝ 1/I","V ∝ I","I ∝ R"],ans:2,exp:"Ohm's law: V = IR, i.e., V ∝ I at constant resistance. Materials obeying this are called ohmic conductors."},
+  {id:45,cat:"elec",q:"The capacitance of a parallel plate capacitor increases when:",opts:["Plate separation increases","A dielectric is inserted","Plate area decreases","Voltage increases"],ans:1,exp:"C = ε₀εᵣA/d. Inserting a dielectric (εᵣ > 1) increases capacitance. Decreasing d or increasing A also increases C."},
+  {id:46,cat:"elec",q:"Gauss's law relates electric flux through a closed surface to:",opts:["The surface area","Total charge enclosed","Potential at the surface","Distance from charges"],ans:1,exp:"Gauss's law: Φ = Q_enc/ε₀. The total electric flux through any closed surface equals the enclosed charge divided by ε₀."},
+  {id:47,cat:"elec",q:"A charge of 3C moves through a potential difference of 6V. The energy acquired is:",opts:["2 J","0.5 J","18 J","9 J"],ans:2,exp:"W = QV = 3 × 6 = 18 J."},
+  {id:48,cat:"elec",q:"The force on a current-carrying conductor in a magnetic field is given by:",opts:["F = qvB","F = BIL sinθ","F = qE","F = mv²/r"],ans:1,exp:"The force on a conductor: F = BIL sinθ, where B is field, I is current, L is length, and θ is angle between I and B."},
+  {id:49,cat:"elec",q:"According to Faraday's law of electromagnetic induction, the induced EMF is:",opts:["Proportional to magnetic flux","Equal to rate of change of flux","Inversely proportional to flux","Equal to the flux itself"],ans:1,exp:"Faraday's law: ε = −dΦ/dt. The induced EMF equals the negative rate of change of magnetic flux (negative sign = Lenz's law)."},
+  {id:50,cat:"elec",q:"In a purely resistive AC circuit, current and voltage are:",opts:["90° out of phase","180° out of phase","In phase","45° out of phase"],ans:2,exp:"In a pure resistor, current and voltage are in phase (phase difference = 0°). Power factor = cos(0°) = 1 (maximum)."},
+  {id:51,cat:"elec",q:"The energy stored in a capacitor of capacitance C charged to voltage V is:",opts:["U = CV","U = ½CV²","U = CV²","U = ½C²V"],ans:1,exp:"Energy stored: U = ½CV² = Q²/2C = ½QV."},
+  {id:52,cat:"elec",q:"Lenz's law is based on conservation of:",opts:["Charge","Energy","Momentum","Mass"],ans:1,exp:"Lenz's law says induced current opposes the change causing it — this is a consequence of energy conservation (you can't get electrical energy for free)."},
+  {id:53,cat:"elec",q:"The drift velocity of electrons in a conductor is related to current I by:",opts:["I = neAv","I = neA/v","I = nev/A","I = ne/Av"],ans:0,exp:"I = nAve_d, where n = electron density, A = cross-section area, v = drift velocity, e = electron charge."},
+  {id:54,cat:"elec",q:"The electric potential due to a point charge Q at distance r is:",opts:["V = kQ/r²","V = kQ/r","V = kQr","V = kQ²/r"],ans:1,exp:"V = kQ/r = Q/(4πε₀r). Note: potential falls as 1/r while field falls as 1/r²."},
+  {id:55,cat:"elec",q:"The power dissipated in a resistor R carrying current I is:",opts:["P = IR","P = I²R","P = IR²","P = I/R"],ans:1,exp:"P = I²R = V²/R = IV. Power is the rate of energy dissipation; all three forms are equivalent through Ohm's law."},
+  {id:56,cat:"elec",q:"The time constant of an RC circuit is:",opts:["τ = R/C","τ = RC","τ = 1/RC","τ = C/R"],ans:1,exp:"Time constant τ = RC seconds. After time τ, the capacitor charges to 63.2% of its final voltage (or discharges to 36.8%)."},
+  {id:57,cat:"elec",q:"A transformer has 500 primary turns and 50 secondary turns. If primary voltage is 220V, secondary voltage is:",opts:["2200 V","22 V","220 V","110 V"],ans:1,exp:"Vs/Vp = Ns/Np → Vs = 220 × (50/500) = 22 V. This is a step-down transformer with ratio 10:1."},
+  {id:58,cat:"elec",q:"Magnetic field at the centre of a circular current loop of radius r carrying current I is:",opts:["B = μ₀I/2r","B = μ₀I/2πr","B = μ₀Ir","B = 2μ₀I/r"],ans:0,exp:"B = μ₀I/2r at the centre of a circular loop. This is derived from Biot-Savart law."},
+  {id:59,cat:"elec",q:"Resistivity of a conductor depends on:",opts:["Length of conductor","Cross-sectional area","Material and temperature","Applied voltage"],ans:2,exp:"Resistivity ρ is an intrinsic material property that depends on the material and temperature. R = ρL/A, where L and A are geometric factors."},
+  {id:60,cat:"elec",q:"Two parallel wires carrying currents in the same direction:",opts:["Attract each other","Repel each other","Have no force between them","Rotate"],ans:0,exp:"Parallel wires with currents in the same direction attract. This is the basis of the original definition of the ampere."},
+  {id:61,cat:"elec",q:"The SI unit of magnetic flux is:",opts:["Tesla","Gauss","Weber","Henry"],ans:2,exp:"Magnetic flux Φ = BA, measured in Webers (Wb). 1 Wb = 1 T·m². Tesla is the unit of magnetic field strength."},
+  {id:62,cat:"elec",q:"Coulomb's law is analogous to Newton's law of gravitation. Both forces:",opts:["Are always attractive","Are always repulsive","Follow inverse-square law","Require a medium"],ans:2,exp:"Both Coulomb and gravitational forces follow the inverse-square law (∝ 1/r²). But gravity is always attractive while Coulomb can be repulsive."},
+  {id:63,cat:"elec",q:"In a circuit, if voltage is doubled and resistance is halved, current becomes:",opts:["Same","Double","4 times","Half"],ans:2,exp:"I = V/R. If V → 2V and R → R/2, then I = 2V/(R/2) = 4V/R = 4 times original current."},
+  {id:64,cat:"elec",q:"The dielectric constant (relative permittivity) of vacuum is:",opts:["0","1","8.85×10⁻¹²","∞"],ans:1,exp:"The dielectric constant (εᵣ) of vacuum is 1 by definition. All other materials have εᵣ > 1. Note: ε₀ = 8.85×10⁻¹² F/m is the permittivity of free space, not the dielectric constant."},
+  {id:65,cat:"elec",q:"The magnetic force on a stationary positive charge in a magnetic field is:",opts:["In direction of field","Opposite to field","Zero","Perpendicular to field"],ans:2,exp:"F = qv × B. If v = 0 (stationary charge), then F = 0. Magnetic force only acts on moving charges."},
+  {id:66,cat:"elec",q:"Self-inductance L of a coil is defined by:",opts:["ε = LI","ε = L(dI/dt)","ε = dL/dt","ε = L/I"],ans:1,exp:"ε = −L(dI/dt). The induced EMF opposes the change in current. L is measured in Henrys (H)."},
+  {id:67,cat:"elec",q:"The frequency of AC supply in Nepal is:",opts:["25 Hz","50 Hz","60 Hz","100 Hz"],ans:1,exp:"Nepal uses 50 Hz AC supply at 230V, same as most of Asia and Europe. The US uses 60 Hz."},
+  {id:68,cat:"elec",q:"Electric field lines:",opts:["Form closed loops","Start from negative charge","Always form circles","Start from positive, end at negative charge"],ans:3,exp:"Electric field lines start from positive charges and end at negative charges. They never cross and their density represents field strength."},
+  {id:69,cat:"elec",q:"The unit of electric field intensity is:",opts:["N·m/C","N/C or V/m","C/m²","V·m"],ans:1,exp:"Electric field E has units N/C (force per unit charge) which equals V/m (potential gradient). Both are correct."},
+  {id:70,cat:"elec",q:"A 10Ω and 40Ω resistor are connected in parallel. Equivalent resistance is:",opts:["50 Ω","25 Ω","8 Ω","4 Ω"],ans:2,exp:"1/R = 1/10 + 1/40 = 4/40 + 1/40 = 5/40. R = 40/5 = 8 Ω."},
+
+  // === OPTICS (71-100) ===
+  {id:71,cat:"opt",q:"The thin lens formula is:",opts:["1/f = 1/u + 1/v","1/f = 1/v − 1/u","1/f = 1/v + 1/u (using sign convention)","1/f = uv/(u+v)"],ans:1,exp:"Using New Cartesian sign convention: 1/f = 1/v − 1/u, where u is object distance, v is image distance, f is focal length. All distances measured from optical centre."},
+  {id:72,cat:"opt",q:"A convex lens has focal length 20 cm. An object is placed 30 cm from it. Image distance is:",opts:["60 cm","12 cm","−60 cm","−12 cm"],ans:0,exp:"1/f = 1/v − 1/u → 1/20 = 1/v − 1/(−30) → 1/v = 1/20 − 1/30 = (3−2)/60 = 1/60. v = 60 cm (real image on other side)."},
+  {id:73,cat:"opt",q:"The critical angle C and refractive index μ are related by:",opts:["μ = sin C","sin C = 1/μ","μ = cos C","cos C = 1/μ"],ans:1,exp:"At critical angle, refracted ray grazes along the interface (r = 90°). By Snell's law: μ sin C = 1 × sin 90° = 1, so sin C = 1/μ."},
+  {id:74,cat:"opt",q:"Total internal reflection occurs when:",opts:["Light goes from rarer to denser medium","Angle of incidence exceeds critical angle in denser medium","Angle of incidence equals the angle of refraction","Light is incident normally"],ans:1,exp:"TIR occurs when: (1) light travels from denser to rarer medium, AND (2) angle of incidence exceeds critical angle. Basis of optical fibres."},
+  {id:75,cat:"opt",q:"For a prism of apex angle A, at minimum deviation D, the refractive index is:",opts:["μ = sin(A/2)/sin((A+D)/2)","μ = sin((A+D)/2)/sin(A/2)","μ = sin(A)/sin(D)","μ = (A+D)/A"],ans:1,exp:"Prism formula at minimum deviation: μ = sin((A+D)/2) / sin(A/2). This is the most tested NEB optics formula."},
+  {id:76,cat:"opt",q:"A concave mirror has focal length 15 cm. Object is at 45 cm. Image distance is:",opts:["22.5 cm","−22.5 cm","30 cm","−30 cm"],ans:0,exp:"Mirror formula: 1/f = 1/v + 1/u → 1/(−15) = 1/v + 1/(−45) → 1/v = −1/15 + 1/45 = −3/45 + 1/45 = −2/45. v = −22.5 cm (real, in front of mirror)."},
+  {id:77,cat:"opt",q:"The magnification produced by a lens is defined as:",opts:["m = v/u","m = −v/u","m = u/v","m = f/(f−u)"],ans:1,exp:"Linear magnification m = height of image/height of object = −v/u. Negative m means inverted image."},
+  {id:78,cat:"opt",q:"Which type of lens is used to correct myopia (short-sightedness)?",opts:["Convex (converging)","Concave (diverging)","Plano-convex","Cylindrical"],ans:1,exp:"Myopic eye has too much converging power. Concave (diverging) lens diverges the rays before they enter the eye, moving the image back onto the retina."},
+  {id:79,cat:"opt",q:"When light goes from air to glass (μ = 1.5), the angle of refraction is ______ the angle of incidence.",opts:["Greater than","Equal to","Less than","90° minus"],ans:2,exp:"Light bends towards the normal when entering denser medium (glass). By Snell's law: n₁ sinθ₁ = n₂ sinθ₂. Since n₂ > n₁, sinθ₂ < sinθ₁, so θ₂ < θ₁."},
+  {id:80,cat:"opt",q:"The power of a lens with focal length 25 cm is:",opts:["25 D","4 D","0.25 D","2.5 D"],ans:1,exp:"Power P = 1/f (in metres) = 1/0.25 = 4 diopters (D). Convex lens has positive power, concave has negative."},
+  {id:81,cat:"opt",q:"A ray of light strikes a plane mirror at 30° to the mirror surface. The angle of reflection from the normal is:",opts:["30°","60°","90°","15°"],ans:1,exp:"Angle to mirror surface = 30°, so angle of incidence from normal = 90° − 30° = 60°. By law of reflection, angle of reflection = 60°."},
+  {id:82,cat:"opt",q:"Snell's law states: n₁ sinθ₁ = n₂ sinθ₂. This expresses conservation of:",opts:["Energy","Momentum","The component of wave vector parallel to interface","Speed of light"],ans:2,exp:"Snell's law follows from conservation of the tangential component of the wave vector at the interface. It can also be derived from Fermat's principle."},
+  {id:83,cat:"opt",q:"The focal length of a concave mirror is 10 cm. An object is placed at the centre of curvature (20 cm). The image is:",opts:["At infinity","At the focus","At 20 cm, real and inverted","At 20 cm, virtual and erect"],ans:2,exp:"When object is at C (2f), image is also at C — real, inverted, and same size. Using 1/f = 1/v + 1/u: 1/10 = 1/v + 1/20 → v = 20 cm."},
+  {id:84,cat:"opt",q:"Dispersion of white light through a prism occurs because:",opts:["Different colours have the same speed in glass","Different colours have different refractive indices","Glass absorbs some colours","The prism is triangular"],ans:1,exp:"Different wavelengths have different refractive indices in glass (violet > red). This causes them to refract by different amounts, separating the colours (VIBGYOR)."},
+  {id:85,cat:"opt",q:"The refractive index of a medium is defined as:",opts:["Speed of light in medium / speed in vacuum","Speed in vacuum / speed in medium","Wavelength in vacuum / wavelength in medium","Both B and C are correct"],ans:3,exp:"μ = c/v = λ_vacuum/λ_medium = sin(i)/sin(r). Speed, wavelength, and Snell's law definitions all give the same value."},
+  {id:86,cat:"opt",q:"In a compound microscope, the objective lens produces:",opts:["Virtual, erect, magnified image","Real, inverted, magnified image","Virtual, inverted image","Real, erect image"],ans:1,exp:"Compound microscope: objective creates a real, inverted, magnified image just inside the focal length of the eyepiece. The eyepiece then acts as a magnifying glass."},
+  {id:87,cat:"opt",q:"The angle of minimum deviation in a prism is least when:",opts:["The prism has maximum apex angle","Light passes symmetrically through the prism","The prism is made of glass","Light hits the prism at 90°"],ans:1,exp:"Minimum deviation occurs when the ray passes symmetrically through the prism — the angles of incidence and emergence are equal."},
+  {id:88,cat:"opt",q:"Young's double slit experiment demonstrates:",opts:["Particle nature of light","Wave nature of light","Photoelectric effect","Reflection of light"],ans:1,exp:"Young's double slit experiment produces interference fringes, demonstrating the wave nature of light. It was the first experiment to prove light is a wave."},
+  {id:89,cat:"opt",q:"For a virtual image formed by a convex lens, the object must be:",opts:["Beyond 2f","At 2f","Between f and 2f","Between lens and f"],ans:3,exp:"When object is between the lens and focal point (u < f), a convex lens produces a virtual, erect, magnified image (like a magnifying glass)."},
+  {id:90,cat:"opt",q:"The ratio of angle of incidence to angle of refraction is constant for a given pair of media. This is:",opts:["Gauss's law","Snell's law","Brewster's law","Fermat's principle"],ans:1,exp:"Snell's law: n = sin i / sin r = constant for a given pair of media. (This is an approximate statement of Snell's law valid for small angles, but the standard NEB way to state it.)"},
+  {id:91,cat:"opt",q:"Optical fibres use total internal reflection to:",opts:["Increase frequency of light","Transmit light with minimal loss over long distances","Disperse white light","Amplify light"],ans:1,exp:"In optical fibres, light undergoes repeated total internal reflection along the fibre with minimal energy loss. Used in telecommunications and medical endoscopy."},
+  {id:92,cat:"opt",q:"A convex mirror always forms an image that is:",opts:["Real, inverted, magnified","Real, erect, diminished","Virtual, erect, diminished","Virtual, inverted, magnified"],ans:2,exp:"A convex mirror always produces a virtual, erect, diminished image regardless of object position. Used as rear-view mirrors for wide field of view."},
+  {id:93,cat:"opt",q:"The magnifying power of a simple microscope (magnifying glass) for near point D and focal length f is:",opts:["M = D/f","M = 1 + D/f","M = f/D","M = f + D"],ans:1,exp:"M = 1 + D/f when image is at near point (D = 25 cm). When image is at infinity, M = D/f."},
+  {id:94,cat:"opt",q:"Which colour of light has the maximum speed in glass?",opts:["Violet","Blue","Yellow","Red"],ans:3,exp:"Red light has the lowest refractive index in glass (least bent), meaning it has the highest speed in glass. Violet has highest refractive index (most bent, lowest speed)."},
+  {id:95,cat:"opt",q:"The image formed by a plane mirror is:",opts:["Real, magnified","Real, same size","Virtual, same size, laterally inverted","Virtual, diminished"],ans:2,exp:"Plane mirror image: virtual (behind mirror), same size as object, same distance behind mirror as object is in front, and laterally inverted (left-right reversed)."},
+  {id:96,cat:"opt",q:"If a ray passes through a glass slab with parallel sides, the emergent ray is:",opts:["Perpendicular to the incident ray","Parallel to the incident ray (displaced)","Bent towards normal","Bent away from normal"],ans:1,exp:"A glass slab with parallel sides refracts the ray twice (equal and opposite effects). The emergent ray is parallel to the incident ray but displaced laterally."},
+  {id:97,cat:"opt",q:"The resolving power of a telescope depends on:",opts:["Length of the telescope","Focal length of eyepiece","Aperture (diameter) of objective","Magnifying power"],ans:2,exp:"Resolving power = D/1.22λ, where D is the aperture diameter. Larger aperture = better resolution. This is why large telescopes have large mirrors/lenses."},
+  {id:98,cat:"opt",q:"In a rainbow, red colour appears at the:",opts:["Inner arc","Outer arc","Middle","Randomly"],ans:1,exp:"In a primary rainbow, red is on the outer edge and violet is on the inner edge. Red light is refracted less (smaller deviation) so it appears at the top/outer arc."},
+  {id:99,cat:"opt",q:"The lens maker's equation relates focal length to:",opts:["Only the material of the lens","Only the radii of curvature","Both the refractive index and radii of curvature","The thickness of the lens"],ans:2,exp:"Lens maker's equation: 1/f = (μ−1)(1/R₁ − 1/R₂). Both the refractive index μ and the two radii of curvature R₁, R₂ determine the focal length."},
+  {id:100,cat:"opt",q:"When light travels from air to water, which property remains unchanged?",opts:["Wavelength","Speed","Frequency","All three"],ans:2,exp:"Frequency does not change when light enters a new medium — it is determined by the source. Speed and wavelength both decrease in a denser medium (v = fλ, since f is constant)."},
+];
+
+let userAnswers = {};
+let submitted = false;
+let currentFilter = 'all';
+
+function getTagClass(cat) {
+  return cat === 'mod' ? 'tag-mod' : cat === 'elec' ? 'tag-elec' : 'tag-opt';
+}
+function getTagLabel(cat) {
+  return cat === 'mod' ? 'Modern Physics' : cat === 'elec' ? 'Electricity' : 'Optics';
+}
+
+function renderQuestions() {
+  const list = document.getElementById('qlist');
+  const filtered = currentFilter === 'all' ? questions : questions.filter(q => q.cat === currentFilter);
+  list.innerHTML = filtered.map(q => `
+    <div class="q-card ${submitted ? (userAnswers[q.id] === q.ans ? 'answered-correct' : userAnswers[q.id] !== undefined ? 'answered-wrong' : '') : ''}" id="qcard-${q.id}">
+      <div class="q-top">
+        <span class="q-num">Q${q.id}</span>
+        <span class="q-text">${q.q}</span>
+        <span class="q-tag ${getTagClass(q.cat)}">${getTagLabel(q.cat)}</span>
+      </div>
+      <div class="q-options">
+        ${q.opts.map((opt, i) => {
+          let cls = '';
+          if (submitted) {
+            if (i === q.ans) cls = 'correct';
+            else if (userAnswers[q.id] === i && i !== q.ans) cls = 'wrong';
+          } else if (userAnswers[q.id] === i) cls = 'selected';
+          return `<button class="option-btn ${cls}" onclick="selectAnswer(${q.id}, ${i})" ${submitted ? 'disabled' : ''}>
+            <span class="opt-letter">${'ABCD'[i]}</span>${opt}
+          </button>`;
+        }).join('')}
+      </div>
+      <div class="q-explanation ${submitted ? 'show' : ''}" id="exp-${q.id}">
+        <strong>Explanation:</strong> ${q.exp}
+      </div>
+    </div>
+  `).join('');
+}
+
+function selectAnswer(qid, optIdx) {
+  if (submitted) return;
+  userAnswers[qid] = optIdx;
+  updateProgress();
+  const card = document.getElementById(`qcard-${qid}`);
+  card.querySelectorAll('.option-btn').forEach((btn, i) => {
+    btn.classList.toggle('selected', i === optIdx);
+    btn.querySelector('.opt-letter').style.background = i === optIdx ? 'var(--accent)' : '';
+    btn.querySelector('.opt-letter').style.color = i === optIdx ? '#fff' : '';
+  });
+}
+
+function updateProgress() {
+  const filtered = currentFilter === 'all' ? questions : questions.filter(q => q.cat === currentFilter);
+  const total = filtered.length;
+  const answered = filtered.filter(q => userAnswers[q.id] !== undefined).length;
+  const unanswered = questions.filter(q => userAnswers[q.id] === undefined).length;
+  document.getElementById('prog-text').textContent = `${answered} / ${total} answered`;
+  document.getElementById('prog-pct').textContent = Math.round(answered/total*100) + '%';
+  document.getElementById('prog-fill').style.width = (answered/total*100) + '%';
+  document.getElementById('unanswered-count').textContent = unanswered;
+  if (submitted) {
+    const correct = questions.filter(q => userAnswers[q.id] === q.ans).length;
+    document.getElementById('live-score').textContent = correct + '/100';
+  }
+}
+
+function submitQuiz() {
+  if (submitted) return;
+  submitted = true;
+  const correct = questions.filter(q => userAnswers[q.id] === q.ans).length;
+  const wrong = questions.filter(q => userAnswers[q.id] !== undefined && userAnswers[q.id] !== q.ans).length;
+  const skipped = questions.filter(q => userAnswers[q.id] === undefined).length;
+  const pct = correct;
+  document.getElementById('r-score').textContent = correct + '/100';
+  document.getElementById('r-correct').textContent = correct;
+  document.getElementById('r-wrong').textContent = wrong;
+  document.getElementById('r-skip').textContent = skipped;
+  let emoji, title, sub;
+  if (pct >= 80) { emoji='🏆'; title='Distinction Level!'; sub=`Outstanding! ${pct}% is well above distinction threshold. You are ready for your NEB Physics exam tomorrow.`; }
+  else if (pct >= 60) { emoji='💪'; title='Good Job!'; sub=`${pct}% — solid performance. Review the questions you got wrong, focus on the explanations, and you'll be in great shape.`; }
+  else if (pct >= 40) { emoji='📚'; title='Keep Pushing!'; sub=`${pct}% — you have the foundation. Read the explanations carefully for every wrong answer. Focus on formulas and patterns.`; }
+  else { emoji='⚡'; title='More Practice Needed'; sub=`${pct}% — don't panic. Read every explanation carefully, re-attempt the questions you missed, and focus on the formula sheet.`; }
+  document.getElementById('r-emoji').textContent = emoji;
+  document.getElementById('r-title').textContent = title;
+  document.getElementById('r-sub').textContent = sub;
+  document.getElementById('result-overlay').classList.add('show');
+  document.getElementById('submit-btn').disabled = true;
+  renderQuestions();
+  updateProgress();
+}
+
+function closeResult() {
+  document.getElementById('result-overlay').classList.remove('show');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetQuiz() {
+  userAnswers = {};
+  submitted = false;
+  document.getElementById('result-overlay').classList.remove('show');
+  document.getElementById('submit-btn').disabled = false;
+  document.getElementById('live-score').textContent = '—';
+  renderQuestions();
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function filterQ(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderQuestions();
+  updateProgress();
+}
+
+renderQuestions();
+updateProgress();
+</script>
+</body>
+</html>
